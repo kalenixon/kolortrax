@@ -5,7 +5,7 @@ class BGCtrl {
   float idxMin;
   boolean IsBgChange;
   int BgTimer;
-  boolean NoChange;
+  boolean change;
   
   BGCtrl(int r, int g, int b, float iMax, float iMin) {
     rgb = new int[3];
@@ -16,12 +16,12 @@ class BGCtrl {
     idxMax = iMax;
     idxMin = iMin;
     IsBgChange = false;
-    NoChange = false;
+    change = true;
     background(rgb[0], rgb[1], rgb[2]);
   }
   
-  void update(float idx, int bgMod, boolean nbc) {
-    NoChange = nbc;
+  void update(float idx, int bgMod, boolean bgChange) {
+    change = bgChange;
     
     if (idx > .04 && !IsBgChange && (millis() - BgTimer) >= BGCOLORTIME) {
       IsBgChange = true;
@@ -36,25 +36,18 @@ class BGCtrl {
       newRgb[(int)random(3)] = (int)map(idx, 0.05, .6, 255, 0);
       newRgb[(int)random(3)] = (int)map(idx, 0.05, .6, 0, 255);
       
- /*     color bgColor = color(newRgb[0], newRgb[1], newRgb[2]);
-      colorMode(HSB, 100);
-        
-      bgMod = (int)map(bgMod, 0, 127, 100, 0);
-      background(hue(bgColor), saturation(bgMod), brightness(bgColor)); 
-      colorMode(RGB);
-     */ 
       println("Color change: " + idx + " 0: "   + rgb[0] + ", 1: " + rgb[1] + ", 2:" + rgb[2]);
     
-     background(newRgb[0], newRgb[1], newRgb[2]);
+      background(newRgb[0], newRgb[1], newRgb[2]);
       rgb = newRgb;
     } else {
-      if (BGSTICK) {  
+     if (BGSTICK) {  
         background(rgb[0], rgb[1], rgb[2]);
         
-        if (NoChange) {
-          IsBgChange = true;
-        } else {
+        if (change) {
           IsBgChange = false;
+        } else {
+          IsBgChange = true;
         }
       } else {
         background(255);

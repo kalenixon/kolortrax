@@ -9,7 +9,7 @@ class SndCtrl {
   float h3;
   float h4;
   float fxAmt;
-  String route = "/kt";
+  String route;
   
   // OSC objects
   OscP5 oscP5;
@@ -21,6 +21,8 @@ class SndCtrl {
     h2 = harm2;
     h3 = harm3;
     h4 = harm4;
+    
+    route = SNDROUTE;
     
     oscP5 = new OscP5(this, UDPRECVPORT);
     myBroadcast = new NetAddress(UDPSENDADDR,UDPSENDPORT);
