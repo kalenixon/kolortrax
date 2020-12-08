@@ -22,10 +22,7 @@ class Selector {
     
     if (curTime - timer > HIDESELECTTIME) {
       this.hide();
-     // timer = millis();
-    //  println("HIDING");
     } else if (curTime - timer < HIDESELECTTIME) {
-      //println("SHOWING");
       this.show(false);
     }
   }
@@ -36,10 +33,12 @@ class Selector {
   void show(boolean timerUpdate) {
     if (!showing) {
       showing = true;
+      
       stroke(204, 102, 0);
       noFill();
       rect(x, y, dim, dim);
       noStroke();
+
       if (timerUpdate) {
         timer = millis();
       }
