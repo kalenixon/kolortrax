@@ -143,22 +143,22 @@ void draw() {
           Colors[x][y] = c;
           
           // Make the pixel size responsive to audio input
-          // Only if pixel size is larger than minimum
-          int dimAdd = 0;
-          if (app.dimChange) {
-            dimAdd = (int)map(volume, 0.1, .8, MINDIM, MAXDIM);
-          }
+          // Only if pixel size is larger than minimum       
+          int dimAdd = app.dimChange ? (int)map(volume, 0.1, .8, MINDIM, MAXDIM) : 0;
           
-          drawPixel(app.pixelSize + dimAdd, app.drawSquare, width-x-1, y);        
-        } else if (isSavedNearby(Saved, x, y)) {
-          savedCt++;     
-          Colors[x][y] = color(app.red, app.green, app.blue);
-          
-          fill(Colors[x][y]);        
+          drawPixel(app.pixelSize + dimAdd, app.drawSquare, width-x-1, y);  
+        
+        // Also draw this pixel if it's nearby a saved pixel
+        } else if (isSavedNearby(Saved, x, y)) {   
+          Colors[x][y] = color(app.red, app.green, app.blue);        
+          fill(Colors[x][y]);    
           drawPixel(app.pixelSize, app.drawSquare, width-x-1, y); 
+          savedCt++;  
         } else {
           Colors[x][y] = 0;
         }
+      
+      // Display additional "psychgen" pixels here that progressively get longer and rotate
       } else if (app.psychGen) {
         frameRate(FRAMERTLOW);
         
@@ -210,11 +210,11 @@ void draw() {
           SNDDIFFHIMAX, 1, 6
          );
       sndScale = constrain(sndScale, 1, 6);
+      if (DEBUG) println("SCALING UP: " + sndScale);
       
-      println("Scaling up: " + sndScale);
     } else if (savedCt < SNDLOTHRESH) {
       sndScale = map(savedCt, SNDDIFFLOMIN, SNDDIFFLOMAX, 0.1, 1.0);
-      println("scaling down: " + sndScale);
+      if (DEBUG) println("SCALING DOWN: " + sndScale);
       
       // Force these values to be "good" ratios
       if (sndScale <= .25) {
@@ -269,7 +269,8 @@ void mousePressed() {
 
 // Handle MIDI updates
 void controllerChange(int channel, int number, int value) {
- // println("Value: " + value + ", CHANNEL " + channel + ", number: " + number);
+  if (DEBUG) 
+    println("Value: " + value + ", CHANNEL " + channel + ", number: " + number);
   
   app.midiUpdate(channel, number, value);
 }
@@ -327,14 +328,16 @@ boolean isSavedNearby(int[][] arr, int i, int j) {
 void oscEvent(OscMessage theOscMessage) {
   float firstValue = 0;
   
-  /* print the address pattern and the typetag of the received OscMessage */
-  print("### received an osc message.");
-  print(" addrpattern: "+theOscMessage.addrPattern());
-  println(" typetag: "+theOscMessage.typetag());
+  if (DEBUG) {
+    print("### received an osc message.");
+    print(" addrpattern: "+theOscMessage.addrPattern());
+    println(" typetag: "+theOscMessage.typetag());
+  }
   
   if(theOscMessage.checkTypetag("f")) {
     firstValue = theOscMessage.get(0).floatValue(); 
-    println("First msg: " + firstValue);
+    if (DEBUG)
+      println("First msg: " + firstValue);
   }
   
   // pixel dimension

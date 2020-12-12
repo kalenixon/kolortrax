@@ -29,6 +29,7 @@ final int SNDDIFFLOMAX = 8000;
 final int SNDDIFFLOMIN = 2500;
 final String SNDROUTE = "/kt";
 final float MAXFREQ = 8000;
+final int FLOATPREC = 4; // Float precision for freqs sent to max
 
 // OSC / UDP 
 final int UDPSENDPORT = 34000;
@@ -39,9 +40,8 @@ final String UDPSENDADDR = "127.0.0.1";
 // Other
 final boolean PSYCHGENINIT = false;
 final int PSYCHMAX = 100;
-final boolean DO3D = false;
+final int PSYCHWAITTIME = 8000; // for capture + hsb mod
 final int THRESH = 34;
-final int DIMINIT = 2;
 final int XSIZE = 1280;
 final int YSIZE = 960;
 final int BGCOLOR = 255;
@@ -49,17 +49,20 @@ final int BGCOLORTIME = 750;
 final float BGIDXMAX = .6;
 final float BGIDXMIN = .05;
 final boolean BGSTICK = true;
-final boolean SHOSTROKE = false;
+final boolean DEBUG = false;
+
+// Pixel dims etc
+final int DIMINIT = 2;
 final int MAXDIM = 20;
 final int MINDIM = 2;
 final int ADDDIM = 3;
 final int SUBDIM = 2;
+final boolean PERLINNOISE = false;
 final boolean DRAWSQ = true; // true = square, false = circle
+
+// Frame rate
 final int FRAMERT = 15;
 final int FRAMERTLOW = 10;
-final boolean PERLINNOISE = false;
-final int FLOATPREC = 4; // Float precision, used in SndCtrl
-final int PSYCHWAITTIME = 8000; // for capture + hsb mod
 
 // Scope and selector 
 final int MAXSCOPES = 10;
