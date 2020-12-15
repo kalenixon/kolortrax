@@ -35,3 +35,9 @@ An FM modulation effect to the sound output can be applied via MIDI channel 11. 
 
 ## TouchOSC
 As mentioned before, all four pots which control pixel size and RGB values can be controlled via TouchOSC. In addition, there is a feature that is only available through TouchOSC: “PsychGen”. This effect is controlled via the bottom middle fader. When this slider passes to the right side, the effect is turned on and its severity is determined by how far the fader slides. 
+
+KolorTrax listens for TouchOSC on UDP port 16000. 
+It responds to float messages with the following routes:
+* /1/rotary{1-4}
+* /1/toggle{1-3}
+* /1/fader2
